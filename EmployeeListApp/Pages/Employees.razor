@@ -1,0 +1,48 @@
+﻿<h3>Employees</h3>
+
+
+@page "/employees"
+@inject EmployeesService employeeService
+	
+<h1>Lista zaposlenika</h1>
+@if (employees == null)
+{
+	<p><em>Učitavanje...</em></p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>FullName</th>
+				<th>Department</th>
+				<th>Salary</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in employees)
+			{
+			<tr>
+				<td>@item.Id</td>
+				<td>@item.FullName</td>
+				<td>@item.Department</td>
+				<td>@item.Salary</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+}
+	@code {
+        List<Employee> employees;
+        protected override async Task OnInitializedAsync()
+        {
+        	await Load();
+        }
+        protected async Task Load()
+        {
+	        employees = await employeeService.GetEmployeesAsync();
+        }
+}
+}
+
